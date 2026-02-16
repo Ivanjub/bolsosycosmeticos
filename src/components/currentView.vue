@@ -1,6 +1,6 @@
-<template>
+<template>  
 
-  <div id="app">
+  <div id="app">    
 
     <!-- MENÚ -->
     <nav class="menu">
@@ -8,7 +8,7 @@
       <button @click="currentView = 'bolsos'">Bolsos</button>
       <button @click="currentView = 'cosmeticos'">Cosméticos</button>
 
-    <!-- <ul>
+      <!-- <ul>
       <li><router-link to="/cosmeticos">Todos</router-link></li>
       <li><router-link to="/cosmeticos/maquillaje">Maquillaje</router-link></li>
       <li><router-link to="/cosmeticos/facial">Cuidado Facial</router-link></li>
@@ -17,6 +17,8 @@
 
       <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>      
       <button @click="currentView = 'cart'">Carrito</button>
+
+      <Header></Header>
       
     </nav>
 
@@ -32,16 +34,12 @@
       @product-added="handleProductAdded"
     />
 
-    <!-- carrito -->
-    <!-- <Cart v-if="currentView === 'cart'" /> -->
-
     </div>
-
-    <Cart></Cart>
-
+    
   </div>
   <br>
   
+  <!-- FOOTER -->
 <footer id="footer">
   
   <div class="contacto">
@@ -81,22 +79,20 @@ const isDev = process.env.NODE_ENV === 'development'
 
 </script>
 
-
-
 <script>
 
 import { supabase } from '../supabase'
 import ProductList from './ProductList.vue'
 import AddProduct from './AddProduct.vue'
-import Cart  from '@/components/Cart.vue'
+import Header from './Header.vue';
 
 export default {
-  name: 'App', //cambio App a currentView para evitar conflicto con currentView.vue
+  name: 'currentView', //cambio App a currentView para evitar conflicto con currentView.vue
   
   components: {
     ProductList,
     AddProduct,
-    Cart
+    Header
   },
   
   data() {
@@ -116,11 +112,11 @@ export default {
       if (error) {
         console.error(error)
       return
-    }      
+    }
       this.products = data    
   },
 
-  methods: { 
+  methods: {
   //metodo para manejar el evento guardar productos en la base de datos
   async handleProductAdded() { this.currentView = 'list' }
   }

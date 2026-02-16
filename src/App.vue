@@ -1,6 +1,7 @@
 <template>
-
+  
   <div>
+    
     <section class="section1">
     <h1>Bienvenido a Tienda Boutique</h1>
     <a href="index.html">      
@@ -10,20 +11,19 @@
 
     </section>
 
-    <CurrentView />   
-
+    <CurrentView />
     
   </div>
 </template>
 
 <script>
 
-import CurrentView from './components/currentView.vue';
+import CurrentView from './components/currentView.vue'
 
 export default {
   name: 'App',
   components: {
-    CurrentView
+    CurrentView,
   }
   
 }
@@ -73,6 +73,5 @@ h1 {
   align-items: center;
   margin-bottom: 10px;
 }
-
 
 </style>
