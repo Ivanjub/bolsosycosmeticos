@@ -10,12 +10,14 @@
 
     </section>
 
-    <CurrentView />
+    <CurrentView />   
+
     
   </div>
 </template>
 
 <script>
+
 import CurrentView from './components/currentView.vue';
 
 export default {
@@ -36,7 +38,7 @@ export default {
   padding: 0px;
   margin-bottom: 20px;
   border-radius: 8px;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   ;
 }
 h1 {
@@ -46,21 +48,31 @@ h1 {
   color: #34495e;
 }
 .logo {  
-  position: relative;
-  bottom: 50px;
-  left: 250px;
+  float: left;
+  margin-top: -50px;
+  margin-left: 250px;  
   width: 200px;
-  /* height: auto; */
-  display: left;
-;
+
 }
 .build {
   width: 280px;
   float: right;
   margin-top: -80px;
   margin-right: 90px;
-  
-  /* float: right; */
 }
+
+.cart {
+  background: #f4f4f4;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 
 </style>

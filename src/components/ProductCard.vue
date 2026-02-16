@@ -27,13 +27,9 @@
 
     <h3>{{ product.name }}</h3>
     <p class="price">$ {{ product.price }}</p>
-    <button @click="addToCart">Agregar</button>
+    <button @click="addToCart(product)">Agregar</button>
 
-    <!-- <pre style="font-size:11px; text-align:left">
-{{ product.images }}
-</pre> -->
-
-    
+       
   </div>
 
 </template>
@@ -42,6 +38,7 @@
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination } from 'swiper/modules'
+import { addToCart } from '@/store/cart'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -65,7 +62,8 @@ export default {
 
   setup() {
     return {
-      Pagination      
+      Pagination,
+      addToCart      
     }
   },
 

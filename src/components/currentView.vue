@@ -15,10 +15,8 @@
       <li><router-link to="/cosmeticos/capilar">Cuidado Capilar</router-link></li>
     </ul> -->
 
-      <button @click="currentView = 'tira'">Otros</button>            
-      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>
-
-      
+      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>      
+      <button @click="currentView = 'cart'">Carrito</button>
       
     </nav>
 
@@ -34,17 +32,17 @@
       @product-added="handleProductAdded"
     />
 
-    <TiraImagen
-      v-if="currentView === 'tira'"
-      :products="products"
-    />
+    <!-- carrito -->
+    <!-- <Cart v-if="currentView === 'cart'" /> -->
 
     </div>
+
+    <Cart></Cart>
 
   </div>
   <br>
   
-  <footer id="footer">
+<footer id="footer">
   
   <div class="contacto">
     <h4>Contacto</h4>
@@ -90,15 +88,15 @@ const isDev = process.env.NODE_ENV === 'development'
 import { supabase } from '../supabase'
 import ProductList from './ProductList.vue'
 import AddProduct from './AddProduct.vue'
-import TiraImagen from './tiraImagen.vue'
+import Cart  from '@/components/Cart.vue'
 
 export default {
   name: 'App', //cambio App a currentView para evitar conflicto con currentView.vue
   
   components: {
     ProductList,
-    TiraImagen,
-    AddProduct
+    AddProduct,
+    Cart
   },
   
   data() {
@@ -120,12 +118,12 @@ export default {
       return
     }      
       this.products = data    
-},
+  },
 
   methods: { 
   //metodo para manejar el evento guardar productos en la base de datos
   async handleProductAdded() { this.currentView = 'list' }
-}
+  }
 }
 
 </script>
