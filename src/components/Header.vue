@@ -25,6 +25,7 @@ const toggleCart = () => (isOpen.value = !isOpen.value)
 
     <CartDrawer :isOpen="isOpen" @close="toggleCart" />
   </header>
+  
 </template>
 
 <style scoped> 

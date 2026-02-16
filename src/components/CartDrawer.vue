@@ -81,8 +81,9 @@ const total = () =>
   right: -400px;
   width: 350px;
   height: 100%;
-  background: white;
+  background: black;
   padding: 20px;
+  z-index: 999;
   transition: .3s;
   overflow-y: auto;
 }
