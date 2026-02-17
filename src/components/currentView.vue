@@ -15,8 +15,8 @@
       <li><router-link to="/cosmeticos/capilar">Cuidado Capilar</router-link></li>
     </ul> -->
 
-      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>
-
+      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>      
+      
       <Header></Header>
       
     </nav>
@@ -32,6 +32,8 @@
       v-if="currentView === 'add'"
       @product-added="handleProductAdded"
     />
+
+    
 
     </div>
     

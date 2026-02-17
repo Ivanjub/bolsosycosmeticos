@@ -1,5 +1,6 @@
 <script setup>
 import { cart, removeFromCart, clearCart } from "@/store/cart"
+import { CartItem } from "@/components/CartItem.vue"
 
 defineProps(["isOpen"])
 defineEmits(["close"])
@@ -9,6 +10,8 @@ const total = () =>
 </script>
 
 <template>
+  
+
   <div v-if="isOpen" class="overlay" @click="$emit('close')"></div>
 
   <div :class="['drawer', { open: isOpen }]">
