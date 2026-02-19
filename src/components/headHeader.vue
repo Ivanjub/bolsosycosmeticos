@@ -40,6 +40,8 @@ const toggleCart = () => (isOpen.value = !isOpen.value)
   display: flex;
   justify-content: space-between;
   padding: 10px;
+  border-radius: 10px;
+  margin-left: 50px;
   background: black;
   color: white;
 }

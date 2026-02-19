@@ -1,6 +1,7 @@
 <script setup>
 import { cart, removeFromCart, clearCart } from "@/store/cart"
 import { sendToWhatsApp } from "@/utils/checkout"
+import { formatPrice } from "@/utils/format"
 
 defineProps(["isOpen"])
 defineEmits(["close"])
@@ -32,13 +33,13 @@ const total = () =>
         <div>
           <p>{{ item.name }}</p>
           <p>Cant: {{ item.quantity }}</p>
-          <p>${{ item.price * item.quantity }}</p>
+          <p>${{ formatPrice(item.price * item.quantity) }}</p>
         </div>
 
         <button @click="removeFromCart(item.id)">❌</button>
       </div>
 
-      <h3>Total: ${{ total() }}</h3>
+      <h3>Total: ${{ formatPrice(total()) }}</h3>
 
       <button class="btn-clear" @click="clearCart">
         Vaciar carrito

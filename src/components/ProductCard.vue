@@ -26,7 +26,7 @@
     <img v-else src="/no-image.png" />
 
     <h3>{{ product.name }}</h3>
-    <p class="price">$ {{ product.price }}</p>
+    <p class="price">$ {{ formatPrice(product.price) }}</p>
     <button @click="addToCart(product)">Agregar</button>
 
        
@@ -39,6 +39,7 @@
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination } from 'swiper/modules'
 import { addToCart } from '@/store/cart'
+import { formatPrice } from '@/utils/format'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -63,7 +64,8 @@ export default {
   setup() {
     return {
       Pagination,
-      addToCart      
+      addToCart,
+      formatPrice
     }
   },
 
