@@ -17,7 +17,7 @@
 
       <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>      
       
-      <Header></Header>
+      <headHeader></headHeader>
       
     </nav>
 
@@ -85,7 +85,7 @@ const isDev = process.env.NODE_ENV === 'development'
 import { supabase } from '../supabase'
 import ProductList from './ProductList.vue'
 import AddProduct from './AddProduct.vue'
-import Header from './Header.vue';
+import headHeader from './headHeader.vue';
 
 export default {
   name: 'currentView', //cambio App a currentView para evitar conflicto con currentView.vue
@@ -93,7 +93,7 @@ export default {
   components: {
     ProductList,
     AddProduct,
-    Header
+    headHeader
   },
   
   data() {
