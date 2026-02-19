@@ -1,11 +1,16 @@
 <script setup>
 import { cart, removeFromCart, clearCart } from "@/store/cart"
+import { sendToWhatsApp } from "@/utils/checkout"
 
 defineProps(["isOpen"])
 defineEmits(["close"])
 
 const total = () =>
   cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+
+  const checkout = () => {
+        sendToWhatsApp(cart.items, total())
+  }
 </script>
 
 <template>
@@ -39,7 +44,7 @@ const total = () =>
         Vaciar carrito
       </button>
 
-      <button class="btn-buy">
+      <button class="btn-buy" @click="checkout">
         Finalizar compra
       </button>
     </div>
