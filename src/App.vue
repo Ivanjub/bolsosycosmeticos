@@ -10,7 +10,7 @@
     <img class="build" src="./assets/imgbuild.png" alt="En Construcción">    
 
     </section>
-
+     
     <CurrentView />
     
   </div>

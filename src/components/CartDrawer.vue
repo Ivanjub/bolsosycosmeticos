@@ -1,6 +1,5 @@
 <script setup>
 import { cart, removeFromCart, clearCart } from "@/store/cart"
-import { CartItem } from "@/components/CartItem.vue"
 
 defineProps(["isOpen"])
 defineEmits(["close"])
@@ -11,10 +10,10 @@ const total = () =>
 
 <template>
   
-
   <div v-if="isOpen" class="overlay" @click="$emit('close')"></div>
 
   <div :class="['drawer', { open: isOpen }]">
+
     <h2>Tu carrito</h2>
 
     <div v-if="cart.items.length === 0">
@@ -24,6 +23,7 @@ const total = () =>
     <div v-else>
       <div v-for="item in cart.items" :key="item.id" class="item">
         <img :src="item.image" />
+        
         <div>
           <p>{{ item.name }}</p>
           <p>Cant: {{ item.quantity }}</p>
@@ -84,7 +84,8 @@ const total = () =>
   right: -400px;
   width: 350px;
   height: 100%;
-  background: black;
+  background: #f8c1d9;
+  color: black;
   padding: 20px;
   z-index: 999;
   transition: .3s;
@@ -112,6 +113,12 @@ const total = () =>
   padding: 12px;
   margin-top: 10px;
 }
-
+.btn-clear {
+  width: 100%;
+  background: red;
+  color: white;
+  padding: 12px;
+  margin-top: 10px;
+}
 
 </style>
