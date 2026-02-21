@@ -1,71 +1,109 @@
 <script setup>
+import { computed, ref, watch } from "vue"
 import CartDrawer from "@/components/CartDrawer.vue"
-
 import { cart } from "@/store/cart"
-import { ref, computed } from "vue"
 
 const isOpen = ref(false)
+const cartPulse = ref(false)
 
 const cartCount = computed(() =>
   cart.items.reduce((acc, item) => acc + item.quantity, 0)
 )
 
-const toggleCart = () => (isOpen.value = !isOpen.value)
+const toggleCart = () => {
+  isOpen.value = !isOpen.value
+}
 
+watch(cartCount, (newCount, oldCount) => {
+  if (newCount > oldCount) {
+    cartPulse.value = true
+    setTimeout(() => {
+      cartPulse.value = false
+    }, 450)
+  }
+})
 </script>
 
 <template>
-  <header class="header">
-    <!-- <h1>Tienda Cosméticos</h1> -->
-
-    <div class="cart-icon" @click="toggleCart">
+  <div class="header">
+    <button class="cart-icon" :class="{ pulse: cartPulse }" @click="toggleCart" aria-label="Abrir carrito">
       🛒
       <span v-if="cartCount">{{ cartCount }}</span>
-    </div>
+    </button>
 
     <CartDrawer :isOpen="isOpen" @close="toggleCart" />
-  </header>
-  
+  </div>
 </template>
 
-<style scoped> 
+<style scoped>
+.header {
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
 
 .cart-icon {
   position: relative;
   cursor: pointer;
-  font-size: 25px;
+  font-size: 24px;
+  transform-origin: center;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #2a120f;
+  color: #fffaf8;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(26, 11, 9, 0.22);
 }
 
-.header {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px;
-  border-radius: 10px;
-  margin-left: 0;
-  background: black;
-  color: white;
+.cart-icon:hover {
+  background: #140605;
 }
 
-/* numero de productos sobre el carrito */
+.cart-icon.pulse {
+  animation: cartBounce 0.45s ease;
+}
+
 .cart-icon span {
   position: absolute;
-  top: -8px;
-  right: -10px;
-  background: red;
+  top: -6px;
+  right: -7px;
+  background: #d63384;
   color: white;
   border-radius: 50%;
-  font-size: 12px;
-  padding: 3px 6px;
+  font-size: 11px;
+  min-width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
 }
 
 @media (max-width: 640px) {
-  .header {
-    padding: 8px 10px;
-  }
-
   .cart-icon {
-    font-size: 22px;
+    width: 40px;
+    height: 40px;
+    font-size: 21px;
   }
 }
 
+@keyframes cartBounce {
+  0% {
+    transform: scale(1);
+  }
+
+  35% {
+    transform: scale(1.2);
+  }
+
+  60% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
 </style>

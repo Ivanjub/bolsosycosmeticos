@@ -1,20 +1,22 @@
 <template>
   <div id="app">
     <nav class="menu">
-      <button
-        v-for="category in categories"
-        :key="category.value"
-        :class="{ active: selectedCategory === category.value && currentView === 'products' }"
-        @click="selectCategory(category.value)"
-      >
-        {{ category.label }}
-      </button>
+      <div class="menu-categories">
+        <button
+          v-for="category in categories"
+          :key="category.value"
+          :class="{ active: selectedCategory === category.value && currentView === 'products' }"
+          @click="selectCategory(category.value)"
+        >
+          {{ category.label }}
+        </button>
 
-      <button v-if="isDev" :class="{ active: currentView === 'add' }" @click="currentView = 'add'">
-        Agregar producto
-      </button>
+        <button v-if="isDev" :class="{ active: currentView === 'add' }" @click="currentView = 'add'">
+          Agregar producto
+        </button>
+      </div>
 
-      <headHeader></headHeader>
+      <headHeader class="menu-cart"></headHeader>
     </nav>
 
     <div class="contenedor">
@@ -159,8 +161,8 @@ export default {
 <style>
 .menu {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   gap: 10px;
   background: linear-gradient(120deg, #f9d6cb 0%, #f4c7d7 100%);
   padding: 14px;
@@ -169,7 +171,13 @@ export default {
   box-shadow: 0 10px 24px rgba(58, 32, 28, 0.14);
 }
 
-.menu button {
+.menu-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.menu-categories button {
   background: rgba(255, 255, 255, 0.72);
   color: #3c1f1a;
   border: 1px solid rgba(116, 72, 67, 0.15);
@@ -180,15 +188,19 @@ export default {
   transition: all 0.2s ease;
 }
 
-.menu button:hover {
+.menu-categories button:hover {
   background: #fff7ef;
   transform: translateY(-1px);
 }
 
-.menu button.active {
+.menu-categories button.active {
   background: #2a120f;
   color: #fffaf8;
   border-color: #2a120f;
+}
+
+.menu-cart {
+  margin-left: auto;
 }
 
 #footer {
@@ -219,9 +231,14 @@ export default {
     gap: 8px;
     padding: 10px;
     border-radius: 10px;
+    align-items: flex-start;
   }
 
-  .menu button {
+  .menu-categories {
+    gap: 8px;
+  }
+
+  .menu-categories button {
     padding: 8px 12px;
     font-size: 13px;
   }
@@ -234,11 +251,21 @@ export default {
 
 @media (max-width: 480px) {
   .menu {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .menu-categories {
     justify-content: flex-start;
   }
 
-  .menu button {
+  .menu-categories button {
     font-size: 12px;
+  }
+
+  .menu-cart {
+    align-self: flex-end;
+    margin-left: 0;
   }
 
   #footer {
