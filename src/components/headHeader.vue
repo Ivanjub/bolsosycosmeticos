@@ -38,10 +38,10 @@ const toggleCart = () => (isOpen.value = !isOpen.value)
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 10px;
   border-radius: 10px;
-  margin-left: 50px;
+  margin-left: 0;
   background: black;
   color: white;
 }
@@ -56,6 +56,16 @@ const toggleCart = () => (isOpen.value = !isOpen.value)
   border-radius: 50%;
   font-size: 12px;
   padding: 3px 6px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 8px 10px;
+  }
+
+  .cart-icon {
+    font-size: 22px;
+  }
 }
 
 </style>

@@ -1,77 +1,128 @@
 <template>
-  
-  <div>
-    
+  <div class="app-shell">
     <section class="section1">
-    <h1>Bienvenido a Tienda Boutique</h1>
-    <a href="index.html">      
-    <img class="logo" src="./assets/boutique.png" alt="Logo"></a>
+      <a href="index.html" class="brand-link">
+        <img class="logo" src="./assets/boutique.png" alt="Logo Tienda Boutique" />
+      </a>
 
-    <img class="build" src="./assets/imgbuild.png" alt="En Construcción">    
+      <div class="title-wrap">
+        <h1>Bienvenido a Tienda Boutique</h1>
+      </div>
 
+      <img class="build" src="./assets/imgbuild.png" alt="En construccion" />
     </section>
-     
+
     <CurrentView />
-    
   </div>
 </template>
 
 <script>
-
 import CurrentView from './components/currentView.vue'
 
 export default {
   name: 'App',
   components: {
-    CurrentView,
+    CurrentView
   }
-  
 }
 </script>
 
 <style scoped>
-/* Aquí puedes agregar estilos globales */
+.app-shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
 .section1 {
-  background-color: #f5f5f5;
-  width: 100%;
-  height: 150px;
-  padding: 0px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  /* justify-content: flex-end; */
-  ;
-}
-h1 {
-  text-align: center;
-  position: relative;
-  top: 40px;
-  color: #34495e;
-}
-.logo {  
-  float: left;
-  margin-top: -50px;
-  margin-left: 250px;  
-  width: 200px;
-
-}
-.build {
-  width: 280px;
-  float: right;
-  margin-top: -80px;
-  margin-right: 90px;
-}
-
-.cart {
-  background: #f4f4f4;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.cart-item {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: minmax(130px, 220px) 1fr minmax(150px, 260px);
   align-items: center;
-  margin-bottom: 10px;
+  gap: 14px;
+  background: linear-gradient(130deg, #fff4e8 0%, #f8dce9 100%);
+  border: 1px solid rgba(89, 56, 50, 0.18);
+  box-shadow: 0 12px 28px rgba(56, 30, 27, 0.12);
+  border-radius: 14px;
+  width: 100%;
+  min-height: 136px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
 }
 
+h1 {
+  margin: 0;
+  text-align: center;
+  color: #2f1b18;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  line-height: 1.15;
+}
+
+.title-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.brand-link {
+  display: inline-flex;
+  justify-content: flex-start;
+}
+
+.logo {
+  width: min(100%, 190px);
+  height: auto;
+  object-fit: contain;
+}
+
+.build {
+  width: min(100%, 230px);
+  justify-self: end;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .section1 {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 10px;
+    min-height: auto;
+  }
+
+  .brand-link,
+  .title-wrap,
+  .build {
+    justify-content: center;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    padding: 0 8px;
+  }
+
+  .section1 {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .logo {
+    width: min(100%, 150px);
+  }
+
+  .build {
+    width: min(100%, 185px);
+  }
+}
+
+@media (max-width: 480px) {
+  .section1 {
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.15rem;
+  }
+}
 </style>

@@ -85,6 +85,8 @@ const submit = () => {
 
 .checkout-form input,
 .checkout-form select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   border: 1px solid #ddd;
 }
@@ -100,8 +102,28 @@ const submit = () => {
 }
 
 .checkout-form button {
+  width: 100%;
+  box-sizing: border-box;
   background: black;
   color: white;
   padding: 12px;
+}
+
+@media (max-width: 480px) {
+  .checkout-form {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .checkout-form h3 {
+    font-size: 1.1rem;
+  }
+
+  .checkout-form input,
+  .checkout-form select,
+  .checkout-form button {
+    padding: 9px;
+    font-size: 14px;
+  }
 }
 </style>

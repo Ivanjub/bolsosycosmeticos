@@ -1,36 +1,52 @@
 <template>
-  <div class="add-product">
-    <h3>Agregar Nuevo Producto</h3>
+  <section class="add-product">
+    <div class="header">
+      <h3>Agregar Nuevo Producto</h3>
+      <p>Completa la ficha del producto para publicarlo en el catalogo.</p>
+    </div>
 
-    <form @submit.prevent="addProduct">
+    <form class="form-card" @submit.prevent="addProduct">
       <p v-if="errorMessage" class="message error">{{ errorMessage }}</p>
       <p v-if="successMessage" class="message success">{{ successMessage }}</p>
 
-      <label for="category">Categoria:</label>
-      <select id="category" v-model="category" required>
-        <option value="bolsos">Bolsos</option>
-        <option value="maquillaje">Maquillaje</option>
-        <option value="facial">Cuidado Facial</option>
-        <option value="capilar">Cuidado Capilar</option>
-      </select>
+      <div class="fields-grid">
+        <div class="field">
+          <label for="category">Categoria</label>
+          <select id="category" v-model="category" required>
+            <option value="bolsos">Bolsos</option>
+            <option value="maquillaje">Maquillaje</option>
+            <option value="facial">Cuidado Facial</option>
+            <option value="capilar">Cuidado Capilar</option>
+          </select>
+        </div>
 
-      <label for="name">Nombre:</label>
-      <input id="name" type="text" v-model.trim="name" maxlength="120" required />
+        <div class="field">
+          <label for="price">Precio</label>
+          <input id="price" type="number" v-model.number="price" min="1" step="1" required />
+        </div>
+      </div>
 
-      <label for="price">Precio:</label>
-      <input id="price" type="number" v-model.number="price" min="1" step="1" required />
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input id="name" type="text" v-model.trim="name" maxlength="120" required />
+      </div>
 
-      <label for="description">Descripcion:</label>
-      <textarea id="description" v-model.trim="description" maxlength="500"></textarea>
+      <div class="field">
+        <label for="description">Descripcion</label>
+        <textarea id="description" v-model.trim="description" maxlength="500"></textarea>
+      </div>
 
-      <label for="image">Imagenes:</label>
-      <input id="image" ref="fileInputRef" type="file" multiple @change="onFilesSelected" accept="image/*" />
+      <div class="field">
+        <label for="image">Imagenes</label>
+        <input id="image" ref="fileInputRef" type="file" multiple @change="onFilesSelected" accept="image/*" />
+        <small class="helper">{{ selectedFiles.length }} archivo(s) seleccionado(s)</small>
+      </div>
 
       <button type="submit" :disabled="isSubmitting">
         {{ isSubmitting ? "GUARDANDO..." : "GUARDAR PRODUCTO" }}
       </button>
     </form>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -183,13 +199,63 @@ const addProduct = async () => {
 
 <style scoped>
 .add-product {
+  --panel-bg: linear-gradient(145deg, #fff5ee 0%, #ffe7dc 100%);
+  --panel-border: rgba(116, 72, 67, 0.22);
+  --text-main: #2d1916;
+  --text-soft: #6f4d46;
+  --accent: #281210;
+  --accent-hover: #140907;
   margin-top: 20px;
 }
 
-form {
+.header {
+  margin-bottom: 14px;
+}
+
+.header h3 {
+  margin: 0 0 4px;
+  color: var(--text-main);
+  font-size: 1.35rem;
+}
+
+.header p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+.form-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 16px 32px rgba(40, 22, 18, 0.12);
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.helper {
+  color: var(--text-soft);
+  font-size: 12px;
 }
 
 .message {
@@ -212,13 +278,71 @@ form {
 input,
 textarea,
 select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid rgba(109, 74, 66, 0.28);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--text-main);
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px;
+  letter-spacing: 0.4px;
+  box-shadow: 0 10px 22px rgba(20, 8, 7, 0.24);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }
 
 button[disabled] {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .form-card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .fields-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-product {
+    margin-top: 12px;
+  }
+
+  .header h3 {
+    font-size: 1.2rem;
+  }
+
+  .header p {
+    font-size: 13px;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-size: 14px;
+  }
 }
 </style>

@@ -84,7 +84,7 @@ watch(itemCount, (count) => {
   position: fixed;
   top: 0;
   right: -400px;
-  width: 370px;
+  width: min(370px, 100vw);
   height: 100%;
   background: var(--drawer-bg);
   color: var(--drawer-text);
@@ -92,8 +92,9 @@ watch(itemCount, (count) => {
   z-index: 999;
   transition: 0.3s;
   overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
   box-shadow: -14px 0 30px rgba(0, 0, 0, 0.22);
-  font-family: "Avenir Next", "Montserrat", "Segoe UI", sans-serif;
 }
 
 .drawer.open {
@@ -194,5 +195,28 @@ watch(itemCount, (count) => {
 
 .btn-clear:hover {
   background: #4e2f2c;
+}
+
+@media (max-width: 640px) {
+  .drawer {
+    padding: 14px 12px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .items-count {
+    margin: 8px 0 10px;
+    font-size: 13px;
+  }
+
+  .btn-buy,
+  .btn-clear {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
 }
 </style>

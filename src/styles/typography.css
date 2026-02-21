@@ -1,0 +1,50 @@
+:root {
+  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --font-ui: "Plus Jakarta Sans", "Avenir Next", "Segoe UI", sans-serif;
+  --text-strong: #2b1916;
+  --text-normal: #4f3430;
+  --text-soft: #775853;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--text-normal);
+  line-height: 1.45;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fffaf6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-top: 0;
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  letter-spacing: 0.2px;
+}
+
+p,
+label,
+input,
+textarea,
+select,
+button {
+  font-family: var(--font-ui);
+}
+
+p {
+  color: var(--text-normal);
+}
+
+small {
+  color: var(--text-soft);
+}
+

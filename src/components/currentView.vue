@@ -4,12 +4,15 @@
       <button
         v-for="category in categories"
         :key="category.value"
+        :class="{ active: selectedCategory === category.value && currentView === 'products' }"
         @click="selectCategory(category.value)"
       >
         {{ category.label }}
       </button>
 
-      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>
+      <button v-if="isDev" :class="{ active: currentView === 'add' }" @click="currentView = 'add'">
+        Agregar producto
+      </button>
 
       <headHeader></headHeader>
     </nav>
@@ -157,22 +160,35 @@ export default {
 .menu {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
-  background: #f8c1d9;
-  padding: 15px;
+  background: linear-gradient(120deg, #f9d6cb 0%, #f4c7d7 100%);
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(116, 72, 67, 0.2);
+  box-shadow: 0 10px 24px rgba(58, 32, 28, 0.14);
 }
 
 .menu button {
-  background: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #3c1f1a;
+  border: 1px solid rgba(116, 72, 67, 0.15);
+  padding: 10px 16px;
+  border-radius: 999px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .menu button:hover {
-  background: #ffe3ef;
+  background: #fff7ef;
+  transform: translateY(-1px);
+}
+
+.menu button.active {
+  background: #2a120f;
+  color: #fffaf8;
+  border-color: #2a120f;
 }
 
 #footer {
@@ -196,5 +212,37 @@ export default {
   margin: 20px auto;
   padding: 0 15px;
   align-content: center;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    gap: 8px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .menu button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .contenedor {
+    margin: 12px auto;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu {
+    justify-content: flex-start;
+  }
+
+  .menu button {
+    font-size: 12px;
+  }
+
+  #footer {
+    padding: 14px 10px;
+  }
 }
 </style>

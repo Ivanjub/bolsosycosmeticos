@@ -106,4 +106,35 @@ const imageUrl = computed(() => {
 .remove-btn:hover {
   background: #f2b9b5;
 }
+
+@media (max-width: 480px) {
+  .cart-item {
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .cart-item img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .name {
+    font-size: 13px;
+  }
+
+  .qty-controls {
+    gap: 6px;
+  }
+
+  .qty-btn {
+    width: 26px;
+    height: 26px;
+  }
+
+  .remove-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}
 </style>
