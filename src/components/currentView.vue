@@ -1,128 +1,156 @@
-<template>  
-
-  <div id="app">    
-
-    <!-- MENÚ -->
+<template>
+  <div id="app">
     <nav class="menu">
-      
-      <button @click="currentView = 'bolsos'">Bolsos</button>
-      <button @click="currentView = 'cosmeticos'">Cosméticos</button>
+      <button
+        v-for="category in categories"
+        :key="category.value"
+        @click="selectCategory(category.value)"
+      >
+        {{ category.label }}
+      </button>
 
-      <!-- <ul>
-      <li><router-link to="/cosmeticos">Todos</router-link></li>
-      <li><router-link to="/cosmeticos/maquillaje">Maquillaje</router-link></li>
-      <li><router-link to="/cosmeticos/facial">Cuidado Facial</router-link></li>
-      <li><router-link to="/cosmeticos/capilar">Cuidado Capilar</router-link></li>
-    </ul> -->
+      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>
 
-      <button v-if="isDev" @click="currentView = 'add'">Agregar producto</button>      
-      
       <headHeader></headHeader>
-      
     </nav>
 
-    <!-- CONTENIDO -->
-     <div class="contenedor">
-    <ProductList
-      v-if="currentView === 'bolsos'"
-      :products="products"
-    />
+    <div class="contenedor">
+      <ProductList v-if="currentView === 'products'" :products="filteredProducts" />
 
-    <AddProduct
-      v-if="currentView === 'add'"
-      @product-added="handleProductAdded"
-    />
-
-    
-
+      <AddProduct v-if="currentView === 'add'" @product-added="handleProductAdded" />
     </div>
-    
   </div>
+
   <br>
-  
-  <!-- FOOTER -->
-<footer id="footer">
-  
-  <div class="contacto">
-    <h4>Contacto</h4>
-    <p><strong>Fono:</strong> <a href="tel:+56989646126">+56 9 8964 6126</a></p>
 
-    <a
-  href="https://wa.me/+56989646126"
-  target="_blank"
-  style="display:inline-flex;align-items:center;
-         background:#25D366;color:#fff;
-         padding:10px 16px;border-radius:6px;
-         text-decoration:none;font-weight:600;"
->
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-    width="20"
-    style="margin-right:8px"
-  />
-  Contactar por WhatsApp
-</a>
+  <footer id="footer">
+    <div class="contacto">
+      <h4>Contacto</h4>
+      <p><strong>Fono:</strong> <a href="tel:+56989646126">+56 9 8964 6126</a></p>
 
-    <p><strong>Email:</strong> 
-      <a href="mailto:ivan.guerrero@sistventas.cl">
-        ivan.guerrero@sistemaventas.cl
+      <a
+        href="https://wa.me/+56989646126"
+        target="_blank"
+        style="display:inline-flex;align-items:center;background:#25D366;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600;"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+          width="20"
+          style="margin-right:8px"
+        />
+        Contactar por WhatsApp
       </a>
-    </p>
-    <p>© Sistema 2026 - Creado por <a href="">SoporteAFTA</a>- Desarrollo web</p>
-  </div>
-</footer>    
 
+      <p><strong>Email:</strong> <a href="mailto:ivan.guerrero@sistventas.cl">ivan.guerrero@sistemaventas.cl</a></p>
+      <p>© Sistema 2026 - Creado por <a href="">SoporteAFTA</a>- Desarrollo web</p>
+    </div>
+  </footer>
 </template>
 
 <script setup>
-
 const isDev = process.env.NODE_ENV === 'development'
-
 </script>
 
 <script>
-
 import { supabase } from '../supabase'
 import ProductList from './ProductList.vue'
 import AddProduct from './AddProduct.vue'
-import headHeader from './headHeader.vue';
+import headHeader from './headHeader.vue'
 
 export default {
-  name: 'currentView', //cambio App a currentView para evitar conflicto con currentView.vue
-  
+  name: 'currentView',
+
   components: {
     ProductList,
     AddProduct,
     headHeader
   },
-  
+
   data() {
     return {
       products: [],
-      currentView: 'bolsos' // 'list' | 'add' | 'bolsos' | 'cosmeticos'
-      
+      currentView: 'products',
+      selectedCategory: 'all'
+    }
+  },
+
+  computed: {
+    categories() {
+      const list = [{ value: 'all', label: 'Todos' }]
+      const unique = new Set()
+
+      this.products.forEach((product) => {
+        const normalized = this.normalizeCategory(product.category)
+        if (normalized) unique.add(normalized)
+      })
+
+      Array.from(unique)
+        .sort((a, b) => a.localeCompare(b))
+        .forEach((category) => {
+          list.push({
+            value: category,
+            label: this.formatCategoryLabel(category)
+          })
+        })
+
+      return list
+    },
+
+    filteredProducts() {
+      if (this.selectedCategory === 'all') return this.products
+
+      return this.products.filter((product) => {
+        const productCategory = this.normalizeCategory(product.category)
+        return productCategory === this.selectedCategory
+      })
     }
   },
 
   async mounted() {
-    
-      const { data, error } = await supabase
-      .from('products')
-      .select('*')  
-      
-      if (error) {
-        console.error(error)
-      return
-    }
-      this.products = data    
+    await this.loadProducts()
   },
 
   methods: {
-  //metodo para manejar el evento guardar productos en la base de datos
-  async handleProductAdded() { this.currentView = 'list' }
+    normalizeCategory(category) {
+      return (category || '').trim().toLowerCase()
+    },
+
+    formatCategoryLabel(category) {
+      if (!category) return ''
+      return category.charAt(0).toUpperCase() + category.slice(1)
+    },
+
+    async loadProducts() {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+
+      if (error) {
+        console.error(error)
+        return
+      }
+
+      this.products = data
+
+      if (
+        this.selectedCategory !== 'all' &&
+        !this.categories.some((category) => category.value === this.selectedCategory)
+      ) {
+        this.selectedCategory = 'all'
+      }
+    },
+
+    async handleProductAdded() {
+      this.currentView = 'products'
+      await this.loadProducts()
+    },
+
+    selectCategory(category) {
+      this.selectedCategory = category
+      this.currentView = 'products'
+    }
   }
 }
-
 </script>
 
 <style>
@@ -169,5 +197,4 @@ export default {
   padding: 0 15px;
   align-content: center;
 }
-
 </style>

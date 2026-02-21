@@ -28,6 +28,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "CartView"
+}
+</script>
+
 
 <script setup>
 import { cart, removeFromCart, clearCart } from "@/store/cart"

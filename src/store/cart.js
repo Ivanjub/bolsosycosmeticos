@@ -26,6 +26,18 @@ export function addToCart(product) {
   }
 }
 
+export function decreaseItemQuantity(id) {
+  const existing = cart.items.find(p => p.id === id)
+  if (!existing) return
+
+  if (existing.quantity > 1) {
+    existing.quantity--
+    return
+  }
+
+  removeFromCart(id)
+}
+
 export function removeFromCart(id) {
   cart.items = cart.items.filter(p => p.id !== id)
 }

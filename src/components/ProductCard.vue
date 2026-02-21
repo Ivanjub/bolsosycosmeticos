@@ -27,7 +27,7 @@
 
     <h3>{{ product.name }}</h3>
     <p class="price">$ {{ formatPrice(product.price) }}</p>
-    <button @click="addToCart(product)">Agregar</button>
+    <button @click="addToCart(product); cambiarTexto('Agregado')">Agregar</button>
 
        
   </div>
@@ -40,12 +40,11 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination } from 'swiper/modules'
 import { addToCart } from '@/store/cart'
 import { formatPrice } from '@/utils/format'
+import { getPublicImage } from '../supabase'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
-
-import { getPublicImage } from '../supabase'
 
 export default {
   name: 'ProductCard',
@@ -75,6 +74,12 @@ export default {
         ? this.product.images.map(path => getPublicImage(path))
         : []
     }
+  },
+
+  methods: {
+    cambiarTexto() {
+        this.texto = "Agregado"
+    }
   }
 }
 
@@ -92,9 +97,6 @@ export default {
 }
 
 img {
-  /* width: 100%; */
-  /* height: 150px; */
-  /* object-fit: cover; */
   border-radius: 8px;
 }
 
@@ -109,8 +111,13 @@ button {
   border: none;
   border-radius: 6px;
   background: #d63384;
+  letter-spacing: 0.5px;
   color: white;
   cursor: pointer;
+  
+}
+button:active {
+  background: #8e6394;
 }
 
 .product-swiper img {
@@ -123,6 +130,5 @@ button {
   width: 24px;
   height: 24px;
 }
-
 
 </style>
