@@ -36,7 +36,7 @@ export default {
 
 .section1 {
   display: grid;
-  grid-template-columns: minmax(130px, 220px) 1fr minmax(150px, 260px);
+  grid-template-columns: minmax(150px, 230px) 1fr minmax(150px, 230px);
   align-items: center;
   gap: 14px;
   background: linear-gradient(130deg, #fff4e8 0%, #f8dce9 100%);
@@ -68,13 +68,13 @@ h1 {
 }
 
 .logo {
-  width: min(100%, 190px);
+  width: min(100%, 200px);
   height: auto;
   object-fit: contain;
 }
 
 .build {
-  width: min(100%, 230px);
+  width: min(100%, 200px);
   justify-self: end;
   height: auto;
   object-fit: contain;

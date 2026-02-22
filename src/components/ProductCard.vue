@@ -62,7 +62,14 @@
     <div class="gallery-modal" @click.stop>
       <button class="gallery-close" @click="closeGallery">×</button>
 
-      <div class="gallery-main">
+      <div
+        class="gallery-main"
+        @pointerdown="onGalleryPointerDown"
+        @pointermove="onGalleryPointerMove"
+        @pointerup="onGalleryPointerUp"
+        @pointercancel="onGalleryPointerUp"
+        @pointerleave="onGalleryPointerUp"
+      >
         <div class="gallery-backdrop" :style="galleryBackdropStyle"></div>
         <button class="gallery-nav prev" @click.stop="prevImage" aria-label="Foto anterior">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -74,8 +81,8 @@
           :src="galleryImages[selectedImageIndex]"
           :alt="product.name"
           class="gallery-main-image"
-          :class="{ zoomed: galleryZoomed }"
-          @click.stop="toggleZoom"
+          draggable="false"
+          @dragstart.prevent
         />
 
         <button class="gallery-nav next" @click.stop="nextImage" aria-label="Foto siguiente">
@@ -143,7 +150,12 @@ export default {
       addPulseTimeout: null,
       galleryOpen: false,
       selectedImageIndex: 0,
-      galleryZoomed: false,
+      galleryTouchStartX: null,
+      galleryTouchStartY: null,
+      galleryTouchDeltaX: 0,
+      galleryTouchDeltaY: 0,
+      galleryPointerDown: false,
+      galleryPointerId: null,
       cardSwiper: null
     }
   },
@@ -187,27 +199,68 @@ export default {
     openGallery(index) {
       this.selectedImageIndex = index
       this.galleryOpen = true
-      this.galleryZoomed = false
     },
     closeGallery() {
       this.galleryOpen = false
-      this.galleryZoomed = false
     },
     selectImage(index) {
       this.selectedImageIndex = index
-      this.galleryZoomed = false
     },
     nextImage() {
       this.selectedImageIndex = (this.selectedImageIndex + 1) % this.galleryImages.length
-      this.galleryZoomed = false
     },
     prevImage() {
       const max = this.galleryImages.length - 1
       this.selectedImageIndex = this.selectedImageIndex === 0 ? max : this.selectedImageIndex - 1
-      this.galleryZoomed = false
     },
-    toggleZoom() {
-      this.galleryZoomed = !this.galleryZoomed
+    onGalleryPointerDown(event) {
+      if (event.target && event.target.closest && event.target.closest('.gallery-nav')) return
+      if (event.button !== 0) return
+      this.galleryPointerDown = true
+      this.galleryPointerId = event.pointerId
+      if (event.currentTarget && event.currentTarget.setPointerCapture) {
+        event.currentTarget.setPointerCapture(event.pointerId)
+      }
+      this.galleryTouchStartX = event.clientX
+      this.galleryTouchStartY = event.clientY
+      this.galleryTouchDeltaX = 0
+      this.galleryTouchDeltaY = 0
+    },
+    onGalleryPointerMove(event) {
+      if (!this.galleryPointerDown || this.galleryTouchStartX === null) return
+      this.galleryTouchDeltaX = event.clientX - this.galleryTouchStartX
+      if (this.galleryTouchStartY !== null) {
+        this.galleryTouchDeltaY = event.clientY - this.galleryTouchStartY
+      }
+    },
+    onGalleryPointerUp(event) {
+      if (!this.galleryPointerDown) return
+      this.galleryPointerDown = false
+
+      if (
+        event &&
+        event.currentTarget &&
+        event.currentTarget.releasePointerCapture &&
+        this.galleryPointerId !== null
+      ) {
+        event.currentTarget.releasePointerCapture(this.galleryPointerId)
+      }
+      this.galleryPointerId = null
+
+      const threshold = 40
+      const absX = Math.abs(this.galleryTouchDeltaX)
+      const absY = Math.abs(this.galleryTouchDeltaY)
+      const isHorizontalSwipe = absX >= threshold && absX > absY * 1.2
+
+      if (isHorizontalSwipe) {
+        if (this.galleryTouchDeltaX < 0) this.nextImage()
+        else this.prevImage()
+      }
+
+      this.galleryTouchStartX = null
+      this.galleryTouchStartY = null
+      this.galleryTouchDeltaX = 0
+      this.galleryTouchDeltaY = 0
     },
     onCardSwiper(swiper) {
       this.cardSwiper = swiper
@@ -501,6 +554,7 @@ button.added {
   align-items: center;
   justify-content: center;
   cursor: default;
+  touch-action: pan-y;
   background: #faf7f9;
   position: relative;
 }
@@ -523,17 +577,12 @@ button.added {
   max-height: 100%;
   object-fit: contain;
   object-position: center center;
-  transition: transform 0.2s ease;
-  transform-origin: center;
-  cursor: zoom-in;
+  cursor: default;
+  user-select: none;
+  -webkit-user-drag: none;
   display: block;
   position: relative;
   z-index: 1;
-}
-
-.gallery-main-image.zoomed {
-  transform: scale(1.12);
-  cursor: zoom-out;
 }
 
 .gallery-nav {
@@ -618,8 +667,8 @@ button.added {
 
 .gallery-product button {
   margin-top: 8px;
-  padding: 8px 10px;
-  font-size: 13px;
+  padding: 10px 12px;
+  font-size: 14px;
 }
 
 .thumbs {

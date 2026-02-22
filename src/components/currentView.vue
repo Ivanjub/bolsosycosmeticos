@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="current-view">
     <nav class="menu">
       <div class="menu-categories">
         <button
@@ -159,13 +159,17 @@ export default {
 </script>
 
 <style>
+.current-view {
+  width: 100%;
+}
+
 .menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
   background: linear-gradient(120deg, #f9d6cb 0%, #f4c7d7 100%);
-  padding: 14px;
+  padding: 16px 18px;
   border-radius: 14px;
   border: 1px solid rgba(116, 72, 67, 0.2);
   box-shadow: 0 10px 24px rgba(58, 32, 28, 0.14);
@@ -175,6 +179,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  align-items: center;
 }
 
 .menu-categories button {
@@ -200,6 +205,8 @@ export default {
 }
 
 .menu-cart {
+  display: flex;
+  align-items: center;
   margin-left: auto;
 }
 
@@ -229,9 +236,9 @@ export default {
 @media (max-width: 768px) {
   .menu {
     gap: 8px;
-    padding: 10px;
+    padding: 12px;
     border-radius: 10px;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .menu-categories {
@@ -253,6 +260,7 @@ export default {
   .menu {
     flex-direction: column;
     align-items: stretch;
+    padding: 10px;
   }
 
   .menu-categories {
