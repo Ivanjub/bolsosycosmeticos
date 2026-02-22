@@ -75,6 +75,7 @@
           :alt="product.name"
           class="gallery-main-image"
           :class="{ zoomed: galleryZoomed }"
+          @click.stop="toggleZoom"
         />
 
         <button class="gallery-nav next" @click.stop="nextImage" aria-label="Foto siguiente">
@@ -86,18 +87,27 @@
 
       <div class="gallery-actions">
         <span>{{ selectedImageIndex + 1 }} / {{ galleryImages.length }}</span>
-        <button @click="toggleZoom">{{ galleryZoomed ? "Ajustar" : "Zoom" }}</button>
       </div>
 
-      <div class="thumbs">
-        <button
-          v-for="(img, index) in galleryImages"
-          :key="img + index"
-          :class="{ active: index === selectedImageIndex }"
-          @click="selectImage(index)"
-        >
-          <img :src="img" :alt="`${product.name} ${index + 1}`" />
-        </button>
+      <div class="gallery-bottom">
+        <div class="thumbs">
+          <button
+            v-for="(img, index) in galleryImages"
+            :key="img + index"
+            :class="{ active: index === selectedImageIndex }"
+            @click="selectImage(index)"
+          >
+            <img :src="img" :alt="`${product.name} ${index + 1}`" />
+          </button>
+        </div>
+
+        <div class="gallery-product">
+          <h3 class="gallery-product-name">{{ product.name }}</h3>
+          <p class="gallery-product-price">$ {{ formatPrice(product.price) }}</p>
+          <button :class="{ added: addedPulse }" @click="handleAdd">
+            {{ addedPulse ? "Agregado" : "Agregar al carrito" }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -458,7 +468,7 @@ button.added {
   position: relative;
   height: min(92vh, 760px);
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: minmax(0, 1fr) auto auto;
   gap: 10px;
   overflow: hidden;
 }
@@ -486,6 +496,7 @@ button.added {
   border-radius: 10px;
   overflow: hidden;
   min-height: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -514,6 +525,7 @@ button.added {
   object-position: center center;
   transition: transform 0.2s ease;
   transform-origin: center;
+  cursor: zoom-in;
   display: block;
   position: relative;
   z-index: 1;
@@ -570,10 +582,44 @@ button.added {
   gap: 10px;
 }
 
-.gallery-actions button {
-  width: auto;
+.gallery-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
+  align-items: end;
+  gap: 10px;
+  width: 100%;
+}
+
+.gallery-product {
+  border: none;
+  border-radius: 0;
+  padding: 9px 2px 0;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: none;
+  width: min(270px, 100%);
+  justify-self: end;
+  transform: translate(-16px, -6px);
+}
+
+.gallery-product-name {
+  margin: 0 0 4px;
+  min-height: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #202c37;
+}
+
+.gallery-product-price {
   margin: 0;
+  font-size: 18px;
+  line-height: 1.15;
+  color: #2a120f;
+}
+
+.gallery-product button {
+  margin-top: 8px;
   padding: 8px 10px;
+  font-size: 13px;
 }
 
 .thumbs {
@@ -607,10 +653,6 @@ button.added {
     padding: 10px;
   }
 
-  .gallery-main-image.zoomed {
-    transform: scale(1.08);
-  }
-
   .gallery-nav {
     width: 34px;
     height: 34px;
@@ -621,6 +663,15 @@ button.added {
     overflow-x: auto;
     gap: 8px;
     padding-bottom: 2px;
+  }
+
+  .gallery-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-product {
+    width: 100%;
+    transform: none;
   }
 
   .thumbs button {
