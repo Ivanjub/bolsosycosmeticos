@@ -38,11 +38,11 @@
         target="_blank"
         style="display:inline-flex;align-items:center;background:#25D366;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600;"
       >
-        <img
+        <!-- <img
           src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
           width="20"
           style="margin-right:8px"
-        />
+        /> -->
         Contactar por WhatsApp
       </a>
 

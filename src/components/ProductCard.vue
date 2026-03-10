@@ -304,6 +304,14 @@ export default {
 </script>
 
 <style scoped>
+:where(.card, .gallery-modal) {
+  --accent-dark: #2a120f;
+  --accent-dark-hover: #120605;
+  --accent-soft: #d63384;
+  --nav-bg: rgba(42, 18, 15, 0.78);
+  --nav-bg-hover: rgba(42, 18, 15, 0.95);
+}
+
 .card {
   border-radius: 12px;
   overflow: hidden;
@@ -333,21 +341,20 @@ export default {
   border: 1px solid #f1e1e9;
 }
 
-.card-nav {
+.card-nav,
+.gallery-nav {
   all: unset;
   box-sizing: border-box;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 2;
-  width: 32px;
-  height: 32px;
   border-radius: 50%;
-  background: rgba(42, 18, 15, 0.72);
+  background: var(--nav-bg);
   color: #fff;
   display: grid;
   place-items: center;
   cursor: pointer;
+  z-index: 2;
 }
 
 .card-nav.prev {
@@ -358,8 +365,14 @@ export default {
   right: 16px;
 }
 
-.card-nav:hover {
-  background: rgba(42, 18, 15, 0.92);
+.card-nav {
+  width: 32px;
+  height: 32px;
+}
+
+.card-nav:hover,
+.gallery-nav:hover {
+  background: var(--nav-bg-hover);
 }
 
 .content {
@@ -403,9 +416,9 @@ button {
   margin-top: 12px;
   width: 100%;
   padding: 11px 12px;
-  border: 1px solid #2a120f;
+  border: 1px solid var(--accent-dark);
   border-radius: 8px;
-  background: #2a120f;
+  background: var(--accent-dark);
   color: #fffaf8;
   font-size: 14px;
   font-weight: 700;
@@ -413,13 +426,13 @@ button {
 }
 
 button:hover {
-  background: #120605;
+  background: var(--accent-dark-hover);
   color: #ffffff;
 }
 
 button.added {
-  background: #d63384;
-  border-color: #d63384;
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
 }
 
 .product-swiper img {
@@ -586,24 +599,8 @@ button.added {
 }
 
 .gallery-nav {
-  all: unset;
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background: rgba(42, 18, 15, 0.78);
-  color: #fff;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.gallery-nav:hover {
-  background: rgba(42, 18, 15, 0.95);
 }
 
 .gallery-nav.prev {

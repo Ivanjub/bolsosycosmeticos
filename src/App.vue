@@ -2,7 +2,7 @@
   <div class="app-shell">
     <section class="section1">
       <a href="index.html" class="brand-link">
-        <img class="logo" src="./assets/boutique.png" alt="Logo Tienda Boutique" />
+        <img class="logo" src="./assets/logo-tienda.png" alt="Logo Tienda Boutique" />
       </a>
 
       <div class="title-wrap">
