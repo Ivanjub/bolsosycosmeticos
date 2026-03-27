@@ -1,4 +1,5 @@
 <template>
+  <link rel="icon" href="favicon.png" type="image/png">
   <title>Bolsos y Accesorios</title>
   <div class="app-shell">
     <section class="section1">
