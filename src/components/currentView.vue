@@ -46,7 +46,7 @@
         Contactar por WhatsApp
       </a>
 
-      <p><strong>Email:</strong> <a href="mailto:ivan.guerrero@sistventas.cl">ivan.guerrero@sistemaventas.cl</a></p>
+      <p><strong>Email:</strong> <a href="mailto:soporteticafta@gmail.com">soporteticafta@gmail.com</a></p>
       <p>© Sistema 2026 - Creado por <a href="">SoporteAFTA</a>- Desarrollo web</p>
     </div>
   </footer>

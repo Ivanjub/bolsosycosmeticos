@@ -1,4 +1,5 @@
 <template>
+  <title>Bolsos y Accesorios</title>
   <div class="app-shell">
     <section class="section1">
       <a href="index.html" class="brand-link">
@@ -6,7 +7,7 @@
       </a>
 
       <div class="title-wrap">
-        <h1>Bienvenido a Tienda Boutique</h1>
+        <h1>Bienvenido a Boutique</h1>
       </div>
 
       <img class="build" src="./assets/imgbuild.png" alt="En construccion" />
