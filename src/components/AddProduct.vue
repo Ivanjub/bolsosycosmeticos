@@ -24,6 +24,11 @@
           <label for="price">Precio</label>
           <input id="price" type="number" v-model.number="price" min="1" step="1" required />
         </div>
+
+        <div class="field">
+          <label for="stock">Stock</label>
+          <input id="stock" type="number" v-model.number="stock" min="0" step="1" required />
+        </div>
       </div>
 
       <div class="field">
@@ -64,6 +69,7 @@ const name = ref('')
 const price = ref(0)
 const description = ref('')
 const category = ref('bolsos')
+const stock = ref(0)
 const selectedFiles = ref([])
 const isSubmitting = ref(false)
 const errorMessage = ref('')
@@ -92,6 +98,7 @@ const validateForm = () => {
   if (!category.value) return 'Selecciona una categoria.'
   if (!name.value || name.value.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres.'
   if (!Number.isFinite(price.value) || price.value <= 0) return 'El precio debe ser mayor a 0.'
+  if (!Number.isFinite(stock.value) || stock.value < 0) return 'El stock debe ser mayor o igual a 0.'
 
   return validateFiles(selectedFiles.value)
 }
@@ -152,6 +159,7 @@ const addProduct = async () => {
       price: Number(price.value),
       description: description.value.trim(),
       category: normalizedCategory,
+      stock: Number(stock.value),
       images: []
     }
 
@@ -180,6 +188,7 @@ const addProduct = async () => {
     price.value = 0
     description.value = ''
     category.value = 'bolsos'
+    stock.value = 0
     selectedFiles.value = []
     if (fileInputRef.value) fileInputRef.value.value = ''
 

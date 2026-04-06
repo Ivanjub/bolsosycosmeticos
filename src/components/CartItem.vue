@@ -14,6 +14,11 @@ const imageUrl = computed(() => {
   const firstImage = Array.isArray(props.item?.images) ? props.item.images[0] : null
   return getPublicImage(firstImage)
 })
+
+const canIncrease = computed(() => {
+  const stock = Number(props.item?.stock)
+  return !Number.isFinite(stock) || props.item.quantity < stock
+})
 </script>
 
 <template>
@@ -27,8 +32,11 @@ const imageUrl = computed(() => {
       <div class="qty-controls">
         <button type="button" class="qty-btn" @click="decreaseItemQuantity(item.id)">-</button>
         <span>{{ item.quantity }}</span>
-        <button type="button" class="qty-btn" @click="addToCart(item)">+</button>
+        <button type="button" class="qty-btn" @click="addToCart(item)" :disabled="!canIncrease">+</button>
       </div>
+      <p v-if="item.stock !== undefined && item.stock !== null" class="stock-note">
+        {{ item.quantity >= item.stock ? 'Límite de stock alcanzado' : 'Stock disponible: ' + (item.stock - item.quantity) }}
+      </p>
     </div>
 
     <button type="button" class="remove-btn" @click="removeFromCart(item.id)">Eliminar</button>

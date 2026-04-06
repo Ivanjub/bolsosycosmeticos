@@ -52,9 +52,12 @@
       <h3>{{ product.name }}</h3>
       <p class="price">$ {{ formatPrice(product.price) }}</p>
 
-      <button :class="{ added: addedPulse }" @click="handleAdd">
-        {{ addedPulse ? "Agregado" : "Agregar al carrito" }}
+      <button :class="{ added: addedPulse }" @click="handleAdd" :disabled="!canAddToCart">
+        {{ addedPulse ? "Agregado" : canAddToCart ? "Agregar al carrito" : "Sin stock" }}
       </button>
+      <p v-if="product.stock !== undefined && product.stock !== null" class="stock-label">
+        Stock: {{ product.stock - inCartQuantity }} disponible
+      </p>
     </div>
   </article>
 
@@ -123,7 +126,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination } from 'swiper/modules'
-import { addToCart } from '@/store/cart'
+import { addToCart, cart } from '@/store/cart'
 import { formatPrice } from '@/utils/format'
 import { getPublicImage } from '../supabase'
 
@@ -141,6 +144,33 @@ export default {
     product: {
       type: Object,
       required: true
+    }
+  },
+
+  computed: {
+    inCartQuantity() {
+      const item = cart.items.find((product) => product.id === this.product.id)
+      return item ? item.quantity : 0
+    },
+
+    canAddToCart() {
+      const stock = Number(this.product?.stock)
+      return !Number.isFinite(stock) || this.inCartQuantity < stock
+    },
+
+    images() {
+      return this.product.images
+        ? this.product.images.map((path) => getPublicImage(path))
+        : []
+    },
+    galleryImages() {
+      return this.images.length ? this.images : ['/no-image.png']
+    },
+    galleryBackdropStyle() {
+      const url = this.galleryImages[this.selectedImageIndex]
+      return {
+        backgroundImage: `url('${url}')`
+      }
     }
   },
 
@@ -165,23 +195,6 @@ export default {
       Pagination,
       addToCart,
       formatPrice
-    }
-  },
-
-  computed: {
-    images() {
-      return this.product.images
-        ? this.product.images.map((path) => getPublicImage(path))
-        : []
-    },
-    galleryImages() {
-      return this.images.length ? this.images : ['/no-image.png']
-    },
-    galleryBackdropStyle() {
-      const url = this.galleryImages[this.selectedImageIndex]
-      return {
-        backgroundImage: `url('${url}')`
-      }
     }
   },
 

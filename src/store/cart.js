@@ -18,10 +18,14 @@ watch(
 // funciones
 export function addToCart(product) {
   const existing = cart.items.find(p => p.id === product.id)
+  const stock = Number(product?.stock)
+  const hasStockLimit = Number.isFinite(stock)
 
   if (existing) {
+    if (hasStockLimit && existing.quantity >= stock) return
     existing.quantity++
   } else {
+    if (hasStockLimit && stock <= 0) return
     cart.items.push({ ...product, quantity: 1 })
   }
 }

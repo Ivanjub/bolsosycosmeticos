@@ -11,10 +11,7 @@ defineEmits(["close"])
 
 const showCheckout = ref(false)
 
-const itemCount = computed(() =>
-  cart.items.reduce((sum, item) => sum + item.quantity, 0)
-)
-
+const itemCount = computed(() => cart.items.length)
 const total = () => cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
 const handleClearCart = () => {

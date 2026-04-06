@@ -6,9 +6,7 @@ import { cart } from "@/store/cart"
 const isOpen = ref(false)
 const cartPulse = ref(false)
 
-const cartCount = computed(() =>
-  cart.items.reduce((acc, item) => acc + item.quantity, 0)
-)
+const cartCount = computed(() => cart.items.length)
 
 const toggleCart = () => {
   isOpen.value = !isOpen.value
