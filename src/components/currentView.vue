@@ -31,10 +31,10 @@
   <footer id="footer">
     <div class="contacto">
       <h4>Contacto</h4>
-      <p><strong>Fono:</strong> <a href="tel:+56989646126">+56 9 8964 6126</a></p>
+      <p><strong>Fono:</strong> <a href="tel:+56977878740">+56 9 7787 8740</a></p>
 
       <a
-        href="https://wa.me/+56989646126"
+        href="https://wa.me/+56977878740"
         target="_blank"
         style="display:inline-flex;align-items:center;background:#25D366;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600;"
       >
@@ -47,7 +47,7 @@
       </a>
 
       <p><strong>Email:</strong> <a href="mailto:soporteticafta@gmail.com">soporteticafta@gmail.com</a></p>
-      <p>© Sistema 2026 - Creado por <a href="">SoporteAFTA</a>- Desarrollo web</p>
+      <p>© Sistema 2026 - Creado por <a href="">Soporteafta</a>- Desarrollo web</p>
     </div>
   </footer>
 </template>
