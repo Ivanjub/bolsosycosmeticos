@@ -421,7 +421,7 @@ h3 {
   margin: 0;
   color: #2a120f;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 22px;
   line-height: 1.05;
 }
 
@@ -484,7 +484,7 @@ button.added {
   }
 
   .price {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .product-swiper img,
@@ -504,7 +504,7 @@ button.added {
   }
 
   .price {
-    font-size: 21px;
+    font-size: 18px;
   }
 
   button {
